@@ -16,7 +16,7 @@ interface Page2Props {
   onSectionMove: SectionMoveHandler
 }
 
-const Page2 = forwardRef<HTMLDivElement, Page2Props>(
+const Page2 = forwardRef<HTMLDivElement | null, Page2Props>(
   ({ data, sectionLayout, onSectionMove }, ref) => {
     return (
       <Page2Paper ref={ref}>

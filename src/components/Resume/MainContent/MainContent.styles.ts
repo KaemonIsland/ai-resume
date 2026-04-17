@@ -43,7 +43,9 @@ export const SectionLabel = styled.h2`
   color: ${({ theme }) => theme.colors.accent};
 `
 
-export const MoveSectionBtn = styled.button.attrs(() => ({ 'data-pdf-ignore': '' }))`
+export const MoveSectionBtn = styled.button.attrs(
+  () => ({ 'data-pdf-ignore': '' } as Record<string, unknown>),
+)`
   margin-left: auto;
   font-size: 0.58rem;
   font-weight: 600;
