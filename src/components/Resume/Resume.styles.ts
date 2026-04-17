@@ -1,4 +1,5 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import type { TemplateId } from '../../contexts/TemplateContext'
 
 // Positioned at exactly 1122px — the A4 page boundary at 96dpi.
 // data-pdf-ignore keeps it out of the exported PDF.
@@ -41,15 +42,24 @@ export const ResumeWrapper = styled.div`
   gap: 2rem;
 `
 
-export const ResumePaper = styled.div`
+export const ResumePaper = styled.div<{ $template?: TemplateId }>`
   position: relative;
   display: flex;
-  flex-direction: row;
+  flex-direction: ${({ $template }) =>
+    $template === 'minimal' || $template === 'modern' ? 'column' : 'row'};
   width: 794px;
   min-height: 1122px;
   background: ${({ theme }) => theme.colors.mainBg};
   box-shadow: ${({ theme }) => theme.shadows.resume};
   flex-shrink: 0;
+
+  ${({ $template }) =>
+    ($template === 'minimal' || $template === 'modern') &&
+    css`
+      & > main {
+        padding: 1.75rem 2.25rem 2rem;
+      }
+    `}
 
   @media print {
     box-shadow: none;

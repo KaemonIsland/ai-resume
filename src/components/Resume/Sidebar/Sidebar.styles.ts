@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
-export const SidebarContainer = styled.aside`
-  width: 32%;
+export const SidebarContainer = styled.aside<{ $width?: string }>`
+  width: ${({ $width }) => $width ?? '32%'};
   min-height: 100%;
   background: ${({ theme }) => theme.colors.sidebarBg};
   color: ${({ theme }) => theme.colors.sidebarText};

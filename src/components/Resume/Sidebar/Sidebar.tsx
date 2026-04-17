@@ -29,9 +29,10 @@ import {
 
 interface SidebarProps {
   data: ResumeData
+  width?: string
 }
 
-export default function Sidebar({ data }: SidebarProps) {
+export default function Sidebar({ data, width }: SidebarProps) {
   const { contact, skills, education, certifications } = data
 
   const initials = contact.name
@@ -42,7 +43,7 @@ export default function Sidebar({ data }: SidebarProps) {
     .toUpperCase()
 
   return (
-    <SidebarContainer>
+    <SidebarContainer $width={width}>
       {/* Identity */}
       <IdentityBlock>
         {contact.avatar ? (

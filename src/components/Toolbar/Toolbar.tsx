@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react'
 import type { ResumeData } from '../../types/resume'
 import { exportToPDF } from '../../utils/pdf'
+import { THEMES, THEME_LABELS, type ThemeId } from '../../themes'
+import { TEMPLATE_LABELS, type TemplateId } from '../../contexts/TemplateContext'
 import { FiUpload, FiDownload, FiFileText } from 'react-icons/fi'
 import {
   ToolbarContainer,
@@ -14,6 +16,10 @@ import {
   HiddenInput,
   UploadButton,
   ExportButton,
+  PickerGroup,
+  PickerLabel,
+  PickerSelect,
+  PickerDivider,
 } from './Toolbar.styles'
 
 interface ToolbarProps {
@@ -21,9 +27,22 @@ interface ToolbarProps {
   resume2Ref: React.RefObject<HTMLDivElement | null>
   onJsonUpload: (data: ResumeData) => void
   filename: string
+  themeId: ThemeId
+  onThemeChange: (id: ThemeId) => void
+  templateId: TemplateId
+  onTemplateChange: (id: TemplateId) => void
 }
 
-export default function Toolbar({ resumeRef, resume2Ref, onJsonUpload, filename }: ToolbarProps) {
+export default function Toolbar({
+  resumeRef,
+  resume2Ref,
+  onJsonUpload,
+  filename,
+  themeId,
+  onThemeChange,
+  templateId,
+  onTemplateChange,
+}: ToolbarProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [exporting, setExporting] = useState(false)
 
@@ -76,6 +95,38 @@ export default function Toolbar({ resumeRef, resume2Ref, onJsonUpload, filename 
 
       <ToolbarRight>
         <FilenameChip>{filename}</FilenameChip>
+
+        <PickerGroup>
+          <PickerLabel htmlFor="template-picker">Template</PickerLabel>
+          <PickerSelect
+            id="template-picker"
+            value={templateId}
+            onChange={(e) => onTemplateChange(e.target.value as TemplateId)}
+          >
+            {(Object.keys(TEMPLATE_LABELS) as TemplateId[]).map((id) => (
+              <option key={id} value={id}>
+                {TEMPLATE_LABELS[id]}
+              </option>
+            ))}
+          </PickerSelect>
+        </PickerGroup>
+
+        <PickerGroup>
+          <PickerLabel htmlFor="theme-picker">Color</PickerLabel>
+          <PickerSelect
+            id="theme-picker"
+            value={themeId}
+            onChange={(e) => onThemeChange(e.target.value as ThemeId)}
+          >
+            {(Object.keys(THEMES) as ThemeId[]).map((id) => (
+              <option key={id} value={id}>
+                {THEME_LABELS[id]}
+              </option>
+            ))}
+          </PickerSelect>
+        </PickerGroup>
+
+        <PickerDivider />
 
         <ToolbarActions>
           <HiddenInput

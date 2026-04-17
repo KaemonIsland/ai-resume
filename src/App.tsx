@@ -1,9 +1,11 @@
 import { useRef, useState } from 'react'
 import { ThemeProvider } from 'styled-components'
-import { lightTheme } from './themes'
+import { THEMES, type ThemeId } from './themes'
 import placeholderData from './data/placeholder.json'
 import type { ResumeData, SectionLayout } from './types/resume'
 import { createDefaultSectionLayout } from './types/resume'
+import { TemplateContext, type TemplateId } from './contexts/TemplateContext'
+import { useLocalStorage } from './hooks/useLocalStorage'
 import Toolbar from './components/Toolbar/Toolbar'
 import Resume from './components/Resume/Resume'
 import styled from 'styled-components'
@@ -27,8 +29,14 @@ const Content = styled.main`
 
 export default function App() {
   const [resumeData, setResumeData] = useState<ResumeData>(placeholderData as ResumeData)
-  const [sectionLayout, setSectionLayout] = useState<SectionLayout>(() =>
+  const [sectionLayout, setSectionLayout] = useLocalStorage<SectionLayout>(
+    'resume-layout',
     createDefaultSectionLayout(placeholderData as ResumeData),
+  )
+  const [themeId, setThemeId] = useLocalStorage<ThemeId>('resume-theme', 'light')
+  const [templateId, setTemplateId] = useLocalStorage<TemplateId>(
+    'resume-template',
+    'classic',
   )
   const resumeRef = useRef<HTMLDivElement>(null)
   const resume2Ref = useRef<HTMLDivElement>(null)
@@ -61,24 +69,30 @@ export default function App() {
   }
 
   return (
-    <ThemeProvider theme={lightTheme}>
-      <AppShell>
-        <Toolbar
-          resumeRef={resumeRef}
-          resume2Ref={resume2Ref}
-          onJsonUpload={handleJsonUpload}
-          filename={resumeData.meta.title}
-        />
-        <Content>
-          <Resume
-            ref={resumeRef}
-            data={resumeData}
-            sectionLayout={sectionLayout}
-            onSectionMove={handleSectionMove}
-            page2Ref={resume2Ref}
+    <ThemeProvider theme={THEMES[themeId]}>
+      <TemplateContext.Provider value={templateId}>
+        <AppShell>
+          <Toolbar
+            resumeRef={resumeRef}
+            resume2Ref={resume2Ref}
+            onJsonUpload={handleJsonUpload}
+            filename={resumeData.meta.title}
+            themeId={themeId}
+            onThemeChange={setThemeId}
+            templateId={templateId}
+            onTemplateChange={setTemplateId}
           />
-        </Content>
-      </AppShell>
+          <Content>
+            <Resume
+              ref={resumeRef}
+              data={resumeData}
+              sectionLayout={sectionLayout}
+              onSectionMove={handleSectionMove}
+              page2Ref={resume2Ref}
+            />
+          </Content>
+        </AppShell>
+      </TemplateContext.Provider>
     </ThemeProvider>
   )
 }

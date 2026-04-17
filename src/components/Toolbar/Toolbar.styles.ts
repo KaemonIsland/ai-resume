@@ -120,3 +120,54 @@ export const ExportButton = styled.button`
     transform: none;
   }
 `
+
+export const PickerGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+`
+
+export const PickerLabel = styled.label`
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.sidebarMuted};
+  opacity: 0.8;
+  white-space: nowrap;
+`
+
+export const PickerSelect = styled.select`
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.toolbarText};
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: ${({ theme }) => theme.radius.md};
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.13);
+    border-color: rgba(255, 255, 255, 0.28);
+  }
+
+  &:focus {
+    border-color: ${({ theme }) => theme.colors.sidebarAccent};
+  }
+
+  option {
+    background: ${({ theme }) => theme.colors.toolbarBg};
+    color: ${({ theme }) => theme.colors.toolbarText};
+  }
+`
+
+export const PickerDivider = styled.span`
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+`
+
