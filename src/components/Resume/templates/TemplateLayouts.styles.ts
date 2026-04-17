@@ -7,6 +7,10 @@ export const sidebarWidths: Record<TemplateId, string> = {
   compact: '26%',
   minimal: '0',
   modern: '0',
+  terminal: '0',
+  dnd: '0',
+  retrorpg: '0',
+  geocities: '0',
 }
 
 /* ── Sidebar container with template-aware width ── */

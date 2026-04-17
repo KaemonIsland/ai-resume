@@ -22,6 +22,10 @@ import {
   MinimalContactItem,
 } from './templates/TemplateLayouts.styles'
 import { sidebarWidths } from './templates/TemplateLayouts.styles'
+import TerminalTemplate from './templates/TerminalTemplate'
+import DndTemplate from './templates/DndTemplate'
+import RetroRPGTemplate from './templates/RetroRPGTemplate'
+import GeoCitiesTemplate from './templates/GeoCitiesTemplate'
 
 interface ResumeProps {
   data: ResumeData
@@ -34,6 +38,23 @@ const Resume = forwardRef<HTMLDivElement, ResumeProps>(
   ({ data, sectionLayout, onSectionMove, page2Ref }, ref) => {
     const template = useTemplate()
     const { contact } = data
+
+    // ── Experimental full-page templates ─────────────────
+    if (
+      template === 'terminal' ||
+      template === 'dnd' ||
+      template === 'retrorpg' ||
+      template === 'geocities'
+    ) {
+      return (
+        <ResumeWrapper>
+          {template === 'terminal' && <TerminalTemplate ref={ref} data={data} />}
+          {template === 'dnd' && <DndTemplate ref={ref} data={data} />}
+          {template === 'retrorpg' && <RetroRPGTemplate ref={ref} data={data} />}
+          {template === 'geocities' && <GeoCitiesTemplate ref={ref} data={data} />}
+        </ResumeWrapper>
+      )
+    }
 
     const hasPage2 =
       sectionLayout.summary === 2 ||
